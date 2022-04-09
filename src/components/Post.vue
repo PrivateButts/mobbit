@@ -1,25 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { VaCard, VaCardTitle, VaCardContent, VaImage } from 'vuestic-ui'
+import { PostDataInterface } from '../reddit';
 
-
-
-type PostInterface = {
-  id: string
-  title: string
-  subreddit: string
-  url: string
-  permalink: string
-  post_hint: "image" | "link" | "hosted:video"
-  is_self: boolean
-  secure_media: {
-    reddit_video: {
-      fallback_url: string
-    }
-  }
-}
-
-const props = defineProps<{ post: PostInterface }>()
+const props = defineProps<{ post: PostDataInterface }>()
 const embedUrl = computed(() => {
   let url = "https://www.redditmedia.com" + props.post.permalink + "?ref_source=embed&amp;ref=share&amp;embed=true&amp;theme=dark"
   return url

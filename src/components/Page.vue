@@ -3,6 +3,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import { VaButton, VaButtonGroup } from 'vuestic-ui'
   import Post from './Post.vue'
+  import { APIJSONInterface, PostInterface } from '../reddit';
 
   const route = useRoute()
   const router = useRouter()
@@ -15,14 +16,14 @@
 
   const next_page = ref(null)
   function buildURL() {
-    let url = `https://www.reddit.com/r/${route.params.subreddit}/${sort.value}.json?limit=2`
+    let url = `https://www.reddit.com/r/${route.params.subreddit}/${sort.value}.json?limit=10`
     if (next_page.value) {
       url += `&after=${next_page.value}`
     }
     return url
   }
 
-  const posts = ref([])
+  const posts = ref<PostInterface[]>([])
   function loadPosts() {
     fetch(buildURL()).then(res => {
       res.json().then(data => {
