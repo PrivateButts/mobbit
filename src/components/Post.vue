@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { PostDataInterface } from '../reddit';
 import gallery from './gallery.vue';
+import imgur from './imgur.vue';
 
 const props = defineProps<{ post: PostDataInterface }>()
 const embedUrl = computed(() => {
@@ -30,7 +31,9 @@ const dateDisplay = computed(() => {
         <a href="https://reddit.com/r/{{post.subreddit}}" target="_blank">r/{{post.subreddit}}</a>
       </h6>
       <div class="d-flex justify-content-center post-content">
-        <iframe v-if="post.post_hint == 'link'" :src="post.url" />
+        <imgur v-if="post.url.includes('imgur.com/a/')" :url="post.url" />
+        <img v-else-if="post.post_hint == 'link' && post.url.includes('imgur.com')" :src="post.url + '.jpeg'" :alt="post.title" class="post-img" />
+        <iframe v-else-if="post.post_hint == 'link'" :src="post.url" />
         <!-- <iframe v-if="post.post_hint == 'hosted:video'" :src="post.secure_media.reddit_video.fallback_url" /> -->
         <video v-if="post.post_hint == 'hosted:video'" controls class="post-video">
           <source :src="post.secure_media.reddit_video.fallback_url" type="video/mp4">
