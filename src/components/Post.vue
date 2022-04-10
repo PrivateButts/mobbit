@@ -3,6 +3,8 @@ import { ref, computed } from 'vue'
 import { PostDataInterface } from '../reddit';
 import gallery from './gallery.vue';
 import imgur from './imgur.vue';
+import Tweet from "vue-tweet";
+
 
 const props = defineProps<{ post: PostDataInterface }>()
 const embedUrl = computed(() => {
@@ -14,6 +16,15 @@ const dateDisplay = computed(() => {
   let date = new Date(props.post.created * 1000)
   return date.toLocaleString()
 })
+
+function extractTweetId(url: string) {
+  let regex = /https:\/\/twitter\.com\/[^\/]+\/status\/([^\/]+)/
+  let match = url.match(regex)
+  if (match) {
+    return match[1]
+  }
+  return null
+}
 
 </script>
 
@@ -32,6 +43,9 @@ const dateDisplay = computed(() => {
       </h6>
       <div class="d-flex justify-content-center post-content">
         <imgur v-if="post.url.includes('imgur.com/a/')" :url="post.url" />
+        <div v-else-if="post.url.includes('twitter.com')" class="overflow-auto">
+          <tweet :tweet-id="extractTweetId(post.url)" dnt="true"/>
+        </div>
         <img v-else-if="post.post_hint == 'link' && post.url.includes('imgur.com')" :src="post.url + '.jpeg'" :alt="post.title" class="post-img" />
         <iframe v-else-if="post.post_hint == 'link'" :src="post.url" />
         <!-- <iframe v-if="post.post_hint == 'hosted:video'" :src="post.secure_media.reddit_video.fallback_url" /> -->
