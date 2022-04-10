@@ -6,6 +6,11 @@ export type PostDataInterface = {
     permalink: string
     post_hint: "image" | "link" | "hosted:video"
     is_self: boolean
+    score: number
+    link_flair_text: string
+    link_flair_background_color: string
+    created: number
+    author: string
     secure_media: {
         reddit_video: {
             fallback_url: string
