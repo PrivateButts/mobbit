@@ -3,7 +3,7 @@ import { ref } from '@vue/reactivity'
 import { useRoute, useRouter } from 'vue-router'
 import Post from './Post.vue'
 import navbarVue from './navbar.vue';
-import { APIJSONInterface, PostInterface } from '../reddit';
+import { APIJSONInterface, PostInterface, PostDataInterface } from '../reddit';
 
 const route = useRoute()
 const router = useRouter()
@@ -55,7 +55,16 @@ const posts = ref<PostInterface[]>([])
 function loadPosts() {
   fetch(buildURL()).then(res => {
     res.json().then(data => {
-      posts.value.push(...data.data.children)
+      let newPosts = data.data.children
+      newPosts = newPosts.map((post: { data: { crosspost_parent_list: string|any[]; }; }) => {
+        if(post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0) {
+          return {...post, data: {...post.data.crosspost_parent_list[0]}, crosspost: true}
+        } else {
+          return post
+        }
+      })
+      console.log ("asdfasdfasdf")
+      posts.value.push(...newPosts)
       after_flag.value = data.data.after
     })
   })

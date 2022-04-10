@@ -21,6 +21,7 @@ export type PostDataInterface = {
     score: number
     link_flair_text: string
     link_flair_background_color: string
+    crosspost_parent_list: PostDataInterface[]
     created: number
     author: string
     secure_media: {
