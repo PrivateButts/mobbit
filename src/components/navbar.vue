@@ -21,8 +21,18 @@
                     <li class="nav-item">
                         <a class="nav-link" :class="{'active': props.sort == 'best'}" href="#" @click="$emit('changeSort', 'best')">Best</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{'active': props.sort == 'top'}" href="#" @click="$emit('changeSort', 'top')">Top</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navTopRange" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Top
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navTopRange">
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'all')">All</a>
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'year')">Year</a>
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'month')">Month</a>
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'week')">Week</a>
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'day')">Day</a>
+                            <a class="dropdown-item" href="#" @click="$emit('changeSort', 'top', 'hour')">Hour</a>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" :class="{'active': props.sort == 'new'}" href="#" @click="$emit('changeSort', 'new')">New</a>

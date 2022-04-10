@@ -45,7 +45,7 @@ const dateDisplay = computed(() => {
 <style scoped>
   iframe {
     width: 100%;
-    height: 400px;
+    height: 80vh;
   }
 
   .post-img {

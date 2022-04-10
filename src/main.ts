@@ -2,7 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import Page from './components/Page.vue'
 // import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
+import '@popperjs/core'
+import 'bootstrap';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
