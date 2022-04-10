@@ -18,12 +18,9 @@
 import { objectToString } from '@vue/shared';
 import { computed, ref } from 'vue'
 import { GalleryData } from '../reddit'
+import {decode} from 'html-entities';
 
 const props = defineProps<{ post_id: string, media: GalleryData }>()
-
-function fixUrl(url: string) {
-    return url.replaceAll('&amp;', '&')
-}
 
 const imgArray = computed(() => {
     return Object.entries(props.media).map(entry => {
@@ -34,7 +31,7 @@ const activeImgIndex = ref(0)
 const activeImg = computed(() => {
     let index = activeImgIndex.value % imgArray.value.length
     index = Math.abs(index)
-    return fixUrl(imgArray.value[index].s.u)
+    return decode(imgArray.value[index].s.u)
 })
 </script>
 

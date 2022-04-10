@@ -14,7 +14,7 @@ export type PostDataInterface = {
     subreddit: string
     url: string
     permalink: string
-    post_hint: "image" | "link" | "hosted:video"
+    post_hint: "image" | "link" | "hosted:video" | "rich:video"
     is_self: boolean
     is_gallery: boolean
     media_metadata: GalleryData
@@ -27,6 +27,11 @@ export type PostDataInterface = {
     secure_media: {
         reddit_video: {
             fallback_url: string
+        }
+    }
+    media: {
+        oembed: {
+            html: string
         }
     }
 }

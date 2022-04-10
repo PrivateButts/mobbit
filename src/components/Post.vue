@@ -4,6 +4,7 @@ import { PostDataInterface } from '../reddit';
 import gallery from './gallery.vue';
 import imgur from './imgur.vue';
 import Tweet from "vue-tweet";
+import {decode} from 'html-entities';
 
 
 const props = defineProps<{ post: PostDataInterface }>()
@@ -18,7 +19,7 @@ const dateDisplay = computed(() => {
 })
 
 function extractTweetId(url: string) {
-  let regex = /https:\/\/twitter\.com\/[^\/]+\/status\/([^\/]+)/
+  let regex = /https:\/\/twitter\.com\/[^\/]+\/status\/([\d^\/]+)/
   let match = url.match(regex)
   if (match) {
     return match[1]
@@ -44,27 +45,40 @@ function extractTweetId(url: string) {
       <div class="d-flex justify-content-center post-content">
         <imgur v-if="post.url.includes('imgur.com/a/')" :url="post.url" />
         <div v-else-if="post.url.includes('twitter.com')" class="overflow-auto">
-          <tweet :tweet-id="extractTweetId(post.url)" dnt="true"/>
+          <tweet :tweet-id="extractTweetId(post.url)" :dnt="true"/>
         </div>
         <img v-else-if="post.post_hint == 'link' && post.url.includes('imgur.com')" :src="post.url + '.jpeg'" :alt="post.title" class="post-img" />
         <iframe v-else-if="post.post_hint == 'link'" :src="post.url" />
-        <!-- <iframe v-if="post.post_hint == 'hosted:video'" :src="post.secure_media.reddit_video.fallback_url" /> -->
+        <div v-if="post.post_hint == 'rich:video'" v-html="decode(post.media.oembed.html)" class="rich-video-embed"></div>
         <video v-if="post.post_hint == 'hosted:video'" controls class="post-video">
           <source :src="post.secure_media.reddit_video.fallback_url" type="video/mp4">
         </video>
         <iframe v-if="post.is_self" :src="embedUrl" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="400" scrolling="no"></iframe>
         <img v-if="post.post_hint == 'image'" :src="post.url" :alt="post.title" class="post-img" />
-        <gallery v-if="post.is_gallery" :post_id="post.id" :media="post.media_metadata" />
+        <gallery v-if="post.is_gallery && post.media_metadata" :post_id="post.id" :media="post.media_metadata" />
       </div>
       <a :href="'https://reddit.com' + post.permalink" class="btn btn-primary mt-1" target="_blank">View Comments</a>
     </div>
   </div>
 </template>
 
+<style>
+  div.rich-video-embed iframe {
+    width: 100%;
+    height: 100%;
+    position: inherit !important;
+  }
+</style>
+
 <style scoped>
   iframe {
     width: 100%;
     /* height: 80vh; */
+  }
+
+  .rich-video-embed {
+    width: 100%;
+    height: 100%;
   }
 
   @media (min-width: 768px) {
