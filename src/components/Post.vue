@@ -28,7 +28,7 @@ const dateDisplay = computed(() => {
         <a href="https://reddit.com/u/{{post.author}}" target="_blank">u/{{post.author}}</a> |
         <a href="https://reddit.com/r/{{post.subreddit}}" target="_blank">r/{{post.subreddit}}</a>
       </h6>
-      <div>
+      <div class="d-flex justify-content-center post-content">
         <iframe v-if="post.post_hint == 'link'" :src="post.url" />
         <!-- <iframe v-if="post.post_hint == 'hosted:video'" :src="post.secure_media.reddit_video.fallback_url" /> -->
         <video v-if="post.post_hint == 'hosted:video'" controls class="post-video">
@@ -36,8 +36,8 @@ const dateDisplay = computed(() => {
         </video>
         <iframe v-if="post.is_self" :src="embedUrl" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="400" scrolling="no"></iframe>
         <img v-if="post.post_hint == 'image'" :src="post.url" :alt="post.title" class="post-img" />
-        <a :href="'https://reddit.com' + post.permalink" class="btn btn-primary mt-1" target="_blank">View Comments</a>
       </div>
+      <a :href="'https://reddit.com' + post.permalink" class="btn btn-primary mt-1" target="_blank">View Comments</a>
     </div>
   </div>
 </template>
@@ -45,13 +45,21 @@ const dateDisplay = computed(() => {
 <style scoped>
   iframe {
     width: 100%;
-    height: 80vh;
+    /* height: 80vh; */
   }
+
+  @media (min-width: 768px) {
+    .post-content {
+      height: 60vh;
+    }
+  }
+  
 
   .post-img {
     /* max-height: 400px; */
     object-fit: contain;
-    width: 100%;
+    max-width: 100%;
+    height: 100%;
   }
 
   .post-video {

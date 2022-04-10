@@ -67,7 +67,7 @@ loadPosts()
   <navbar-vue @changeSort="setSort" :sort="sort" />
   <div class="container mt-1 mb-5">
     <div v-if="posts">
-      <post v-for="post in posts" :key="post.data.id" :post="post.data" class="post-margin"></post>
+      <post v-for="post in posts" :key="post.data.id" :post="post.data" class="post"></post>
     </div>
 
     <div class="d-grid">
@@ -76,8 +76,8 @@ loadPosts()
   </div>
 </template>
 
-<style>
-.post-margin {
+<style scoped>
+.post {
   margin: 1rem 0;
 }
 </style>
