@@ -6,6 +6,7 @@ import '@popperjs/core'
 import 'bootstrap';
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const routes = [
     {
         path: '/',
@@ -23,7 +24,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 })
-
 
 
 createApp(App)

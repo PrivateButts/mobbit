@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { PostDataInterface } from '../reddit';
+import gallery from './gallery.vue';
 
 const props = defineProps<{ post: PostDataInterface }>()
 const embedUrl = computed(() => {
@@ -36,6 +37,7 @@ const dateDisplay = computed(() => {
         </video>
         <iframe v-if="post.is_self" :src="embedUrl" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="400" scrolling="no"></iframe>
         <img v-if="post.post_hint == 'image'" :src="post.url" :alt="post.title" class="post-img" />
+        <gallery v-if="post.is_gallery" :post_id="post.id" :media="post.media_metadata" />
       </div>
       <a :href="'https://reddit.com' + post.permalink" class="btn btn-primary mt-1" target="_blank">View Comments</a>
     </div>
